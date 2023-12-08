@@ -38,6 +38,7 @@ export class UserService {
     }
 
     buildUserResponse(user: UserEntity): UserResponseInterface {
+        delete user.password
         return {
             user: {
                 ...user,
@@ -59,5 +60,9 @@ export class UserService {
         }
             delete user.password
         return user
+    }
+    
+     findById(id: number): Promise<UserEntity> {
+        return this.userRepository.findOne({where: {id}})
     }
 } 
