@@ -8,6 +8,7 @@ import { JWR_SECRET } from "@app/config";
 import { UserResponseInterface } from "./types/userResponse.interface";
 import { LoginDto } from "./getUser.dto";
 import {compare} from "bcrypt"
+import { UpdateUserDto } from "./userUpdate.dto";
 
 
 @Injectable()
@@ -65,4 +66,11 @@ export class UserService {
      findById(id: number): Promise<UserEntity> {
         return this.userRepository.findOne({where: {id}})
     }
+
+    async updateUser(userId: number, updateUserDto: UpdateUserDto): Promise<UserEntity> {
+        const user = await this.findById(userId)
+        Object.assign(user, updateUserDto)
+        return await this.userRepository.save(user)
+    }
+    
 } 
